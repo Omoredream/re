@@ -1,0 +1,30 @@
+rpc:
+  - name: 官方
+    url:
+      - https://api.devnet.solana.com
+    config:
+      cooldownIntervalMill: 5_000
+      maxRunningThreads: 3
+      browser: true
+    location: CDN
+    region: global
+    feature:
+      - Triton
+      - CDN
+    offline: false
+
+  - name: SolanaFM
+    url:
+      - https://solana-api.solana.fm/?network=devnet
+    config:
+      cooldownIntervalMill: 5_000
+      maxRunningThreads: 3
+      browser: true
+      headers:
+        "Origin": "https://solana.fm"
+    location: CDN
+    region: global
+    feature:
+      - Triton
+      - CDN
+    offline: false
