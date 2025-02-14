@@ -4,7 +4,7 @@ rpc:
       - https://mainnet.block-engine.jito.wtf
     config:
       cooldownIntervalMill: 200
-      maxRunningThreads: 10
+      maxRunningThreads: 5
     location: 多线
     region: global
     feature:
@@ -16,7 +16,7 @@ rpc:
       - https://amsterdam.mainnet.block-engine.jito.wtf
     config:
       cooldownIntervalMill: 200
-      maxRunningThreads: 10
+      maxRunningThreads: 5
     location: 荷兰 阿姆斯特丹 Teraswitch
     region: ams
     feature:
@@ -27,7 +27,7 @@ rpc:
       - https://frankfurt.mainnet.block-engine.jito.wtf
     config:
       cooldownIntervalMill: 200
-      maxRunningThreads: 10
+      maxRunningThreads: 5
     location: 德国 法兰克福 Teraswitch
     region: fra
     feature:
@@ -38,7 +38,7 @@ rpc:
       - https://ny.mainnet.block-engine.jito.wtf
     config:
       cooldownIntervalMill: 200
-      maxRunningThreads: 10
+      maxRunningThreads: 5
     location: 美国 纽约 Teraswitch
     region: ny
     feature:
@@ -49,7 +49,7 @@ rpc:
       - https://tokyo.mainnet.block-engine.jito.wtf
     config:
       cooldownIntervalMill: 200
-      maxRunningThreads: 10
+      maxRunningThreads: 5
     location: 日本 东京 Teraswitch
     region: tyo
     feature:
