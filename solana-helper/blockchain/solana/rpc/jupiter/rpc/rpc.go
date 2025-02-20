@@ -31,7 +31,7 @@ type RPC struct {
 func New(ctx g.Ctx, name string, url string, cooldownIntervalMill int64, maxRunningThreads uint) (node *RPC, err error) {
 	client := req.C().
 		//SetProxyURL("socks5://127.0.0.1:10801").
-		SetTimeout(5 * time.Second).
+		SetTimeout(10 * time.Second).
 		SetBaseURL(url)
 
 	node = &RPC{
