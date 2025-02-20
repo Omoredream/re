@@ -169,7 +169,7 @@ func getJupiterHttpRPCs(ctx g.Ctx) (rpcs []*jupiterHTTP.RPC, err error) {
 
 			rpc, err := jupiterHTTP.New(ctx,
 				rpcConfig.Name, rpcConfig.URL[0],
-				10_000, 20,
+				10_000, 50,
 			)
 			if err != nil {
 				if !rpcConfig.Offline {
