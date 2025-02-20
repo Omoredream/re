@@ -1,7 +1,9 @@
 package tests
 
 import (
+	"bufio"
 	"context"
+	"os"
 	"sync"
 
 	"github.com/gogf/gf/v2/container/gset"
@@ -30,6 +32,30 @@ type jupiterHttpRPCConfig struct {
 	Level    string      `json:"level"`
 	Feature  gset.StrSet `json:"feature"`
 	Offline  bool        `json:"offline"`
+}
+
+func writeLinesToFile(filename string, lines []string) error {
+	file, err := os.Create(filename)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	writer := bufio.NewWriter(file)
+
+	for _, line := range lines {
+		_, err := writer.WriteString(line + "\n")
+		if err != nil {
+			return err
+		}
+	}
+
+	err = writer.Flush()
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func getJupiterHttpRPCs(ctx g.Ctx) (rpcs []*jupiterHTTP.RPC, err error) {
@@ -143,7 +169,7 @@ func getJupiterHttpRPCs(ctx g.Ctx) (rpcs []*jupiterHTTP.RPC, err error) {
 
 			rpc, err := jupiterHTTP.New(ctx,
 				rpcConfig.Name, rpcConfig.URL[0],
-				10_000, 4,
+				10_000, 20,
 			)
 			if err != nil {
 				if !rpcConfig.Offline {
@@ -177,8 +203,17 @@ func getJupiterHttpRPCs(ctx g.Ctx) (rpcs []*jupiterHTTP.RPC, err error) {
 	if len(rpcs) == 0 {
 		err = gerror.Newf("未创建任何可用的 Jupiter Swap API")
 		return
+	} else {
+		// 将 rpcs 中的 Name 写入 jupiter_http_rpcs.txt
+		names := make([]string, 0)
+		for _, rpc := range rpcs {
+			names = append(names, rpc.Name())
+		}
+		err = writeLinesToFile("valid_jupiter_http_rpcs.txt", names)
+		if err != nil {
+			err = gerror.Wrapf(err, "写入valid_jupiter_http_rpcs.txt失败")
+		}
 	}
-
 	g.Log().Infof(ctx, "导入了 %d 个 Jupiter Swap API", len(rpcs))
 
 	return
