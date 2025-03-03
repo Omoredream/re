@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"github.com/gagliardetto/binary"
 	"github.com/gogf/gf/v2/errors/gerror"
 
 	"github.com/gagliardetto/solana-go"
@@ -41,6 +42,18 @@ func (address *AccountAddress) UnmarshalJSON(data []byte) (err error) {
 	address_ := NewFromBytes32(cached.PublicKey)
 	address.PublicKey = address_.PublicKey
 	address.base58 = address_.base58
+
+	return
+}
+
+func (address *AccountAddress) UnmarshalWithDecoder(dec *bin.Decoder) (err error) {
+	err = dec.Decode(&address.PublicKey)
+	if err != nil {
+		err = gerror.Wrapf(err, "反序列化失败")
+		return
+	}
+
+	address.base58 = address.PublicKey.String()
 
 	return
 }

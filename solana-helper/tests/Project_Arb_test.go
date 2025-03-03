@@ -161,7 +161,19 @@ func testArb(ctx g.Ctx) (err error) {
 
 	balanceBase := decimal.NewFromFloat(g.Cfg().MustGet(nil, "project.arb.balanceBase", 50).Float64())
 	balanceHalvedMaxRound := g.Cfg().MustGet(nil, "project.arb.balanceHalvedMaxRound", 8).Int() // 50/(1.75^8)
-	balanceHalvedBase := decimal.NewFromFloat(1.75)
+	balanceHalvedBase := decimal.NewFromFloat(g.Cfg().MustGet(nil, "project.arb.balanceHalvedBase", 1.75).Float64())
+	balanceBefores := make([]decimal.Decimal, 0, balanceHalvedMaxRound+1)
+	balanceBefores = append(balanceBefores, balanceBase)
+	for round := range balanceHalvedMaxRound {
+		balanceBefores = append(balanceBefores, balanceBefores[round].Div(balanceHalvedBase))
+	}
+	for _, balanceHalved := range g.Cfg().MustGet(nil, "project.arb.balanceHalvedList").Float64s() {
+		balanceBefores = append(balanceBefores, decimal.NewFromFloat(balanceHalved))
+	}
+	slices.SortFunc(balanceBefores, func(a, b decimal.Decimal) int {
+		return b.Cmp(a)
+	})
+	rounds := len(balanceBefores)
 
 	profitToJitoTip := g.Cfg().MustGet(nil, "project.arb.profitToJitoTip", 85_00).Uint16() // 小费占利润比例
 	profitToJitoTipDec := decimal.NewFromInt32(int32(profitToJitoTip))
@@ -246,17 +258,12 @@ func testArb(ctx g.Ctx) (err error) {
 				}
 
 				var quote *jupiterHTTP.GetQuoteResponse
-				balanceBefore := balanceBase.Copy()
-				for round := range balanceHalvedMaxRound {
-					if round > 0 {
-						balanceBefore = balanceBefore.Div(balanceHalvedBase)
-					}
-
+				for round := range rounds {
 					var quote1 jupiterHTTP.GetQuoteResponse
 					quote1, err = jupiterPool.GetQuote(
 						ctx,
 						tokenPrincipal.Address, tokenMiddleAddress,
-						lamports.Token2Lamports(balanceBefore, tokenPrincipal.Info.Decimalx),
+						lamports.Token2Lamports(balanceBefores[round], tokenPrincipal.Info.Decimalx),
 					)
 					if err != nil {
 						if gerror.HasCode(err, jupiterTypes.NoRoutesFound) ||
@@ -293,10 +300,7 @@ func testArb(ctx g.Ctx) (err error) {
 							err = gerror.NewCodef(errcode.IgnoreError, "不可交易")
 							return
 						} else if gerror.HasCode(err, jupiterTypes.RoutePlanDoesNotConsumeAllTheAmount) {
-							if round < balanceHalvedMaxRound-1 {
-								continue
-							}
-							break
+							continue
 						}
 						err = gerror.Wrapf(err, "生成 A-B 交易意向失败")
 						return
@@ -345,10 +349,7 @@ func testArb(ctx g.Ctx) (err error) {
 							err = gerror.NewCodef(errcode.IgnoreError, "不可交易")
 							return
 						} else if gerror.HasCode(err, jupiterTypes.RoutePlanDoesNotConsumeAllTheAmount) {
-							if round < balanceHalvedMaxRound-1 {
-								continue
-							}
-							break
+							continue
 						}
 						err = gerror.Wrapf(err, "生成 B-A 交易意向失败")
 						return
@@ -358,13 +359,10 @@ func testArb(ctx g.Ctx) (err error) {
 
 					balanceAfter := lamports.Lamports2Token(quote2.OutAmount, tokenPrincipal.Info.Decimalx)
 
-					profit = balanceAfter.Sub(balanceBefore)
+					profit = balanceAfter.Sub(balanceBefores[round])
 
 					if !profit.IsPositive() {
-						if round < balanceHalvedMaxRound-1 {
-							continue
-						}
-						break
+						continue
 					}
 
 					if tokenPrincipal.Address != consts.SOL.Address {
@@ -382,17 +380,11 @@ func testArb(ctx g.Ctx) (err error) {
 					}
 
 					if profitAsSOL.LessThan(baseFee) {
-						if round < balanceHalvedMaxRound-1 {
-							continue
-						}
-						break
+						continue
 					}
 					profitAsSOL = profitAsSOL.Sub(baseFee)
 					if profitAsSOL.LessThan(jitoTipMin) || profitAsSOL.LessThan(profitMin) {
-						if round < balanceHalvedMaxRound-1 {
-							continue
-						}
-						break
+						continue
 					}
 
 					foundTime = gtime.Now()

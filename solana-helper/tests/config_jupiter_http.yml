@@ -352,6 +352,7 @@ rpc:
     region: ams
     level: lv2
     feature:
+      - 禁止套利
     offline: false
 
   - name: 23.27.141.43-6IP
@@ -1932,6 +1933,7 @@ rpc:
     region: fra
     level: lv2
     feature:
+      - 币池过多
     offline: false
 
   - name: 64.130.57.209
@@ -7130,6 +7132,7 @@ rpc:
     region: ny
     level: lv1
     feature:
+      - 币池过多
     offline: false
 
   - name: 185.26.8.51

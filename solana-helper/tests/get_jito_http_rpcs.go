@@ -84,23 +84,49 @@ func getJitoHttpRPCs(ctx g.Ctx) (rpcs []*jitoHTTP.RPC, err error) {
 			}()
 			ctx := context.WithValue(ctx, consts.CtxRPC, rpcConfig.Name)
 
-			rpc, err := jitoHTTP.New(ctx,
-				rpcConfig.Name, rpcConfig.URL[0],
-				rpcConfig.Config.CooldownIntervalMill, rpcConfig.Config.MaxRunningThreads,
-				UUID, IPs,
-			)
-			if err != nil {
-				if !rpcConfig.Offline {
-					g.Log().Errorf(ctx, "创建 RPC 失败, %+v", err)
-				}
-				return
-			} else if rpcConfig.Offline {
-				g.Log().Warningf(ctx, "RPC 恢复在线")
+			if len(IPs) == 0 {
+				IPs = append(IPs, nil)
 			}
 
-			mu.LockFunc(func() {
-				rpcs = append(rpcs, rpc)
-			})
+			for _, ip := range IPs {
+				if UUID != "" {
+					rpc, err := jitoHTTP.New(ctx,
+						rpcConfig.Name+"-"+ip.String()+"-"+UUID, rpcConfig.URL[0],
+						rpcConfig.Config.CooldownIntervalMill, rpcConfig.Config.MaxRunningThreads,
+						UUID, &ip,
+					)
+					if err != nil {
+						if !rpcConfig.Offline {
+							g.Log().Errorf(ctx, "创建 RPC 失败, %+v", err)
+						}
+						return
+					} else if rpcConfig.Offline {
+						g.Log().Warningf(ctx, "RPC 恢复在线")
+					}
+
+					mu.LockFunc(func() {
+						rpcs = append(rpcs, rpc)
+					})
+				}
+
+				rpc, err := jitoHTTP.New(ctx,
+					rpcConfig.Name+"-"+ip.String(), rpcConfig.URL[0],
+					rpcConfig.Config.CooldownIntervalMill, rpcConfig.Config.MaxRunningThreads,
+					"", &ip,
+				)
+				if err != nil {
+					if !rpcConfig.Offline {
+						g.Log().Errorf(ctx, "创建 RPC 失败, %+v", err)
+					}
+					return
+				} else if rpcConfig.Offline {
+					g.Log().Warningf(ctx, "RPC 恢复在线")
+				}
+
+				mu.LockFunc(func() {
+					rpcs = append(rpcs, rpc)
+				})
+			}
 		}()
 	}
 

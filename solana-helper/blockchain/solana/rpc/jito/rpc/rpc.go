@@ -3,7 +3,6 @@ package rpc
 import (
 	"context"
 	"net"
-	"sync/atomic"
 
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
@@ -22,43 +21,36 @@ import (
 
 type RPC struct {
 	*rpcinterface.RPC
-	clients          []*req.Client
-	rotateTime       atomic.Uint32
+	c                *req.Client
 	scheduler        *gtimer.Timer
 	tipAccounts      []Address.AccountAddress
 	tipAccountsMutex *gmutex.RWMutex
 }
 
-func New(ctx g.Ctx, name string, url string, cooldownIntervalMill int64, maxRunningThreads uint, uuid string, IPs []net.IP) (node *RPC, err error) {
-	clients := make([]*req.Client, max(1, len(IPs)))
-	if len(IPs) == 0 {
-		clients[0] = req.C()
-	} else {
-		for i, ip := range IPs {
-			clients[i] = req.C().
-				SetDial(func(ctx context.Context, network, addr string) (net.Conn, error) {
-					return (&net.Dialer{
-						LocalAddr: &net.TCPAddr{
-							IP: ip,
-						},
-					}).Dial(network, addr)
-				})
-		}
+func New(ctx g.Ctx, name string, url string, cooldownIntervalMill int64, maxRunningThreads uint, uuid string, ip *net.IP) (node *RPC, err error) {
+	client := req.C()
+	if ip != nil {
+		client.
+			SetDial(func(ctx context.Context, network, addr string) (net.Conn, error) {
+				return (&net.Dialer{
+					LocalAddr: &net.TCPAddr{
+						IP: *ip,
+					},
+				}).Dial(network, addr)
+			})
 	}
 
-	for _, client := range clients {
+	client.
+		//SetProxyURL("socks5://127.0.0.1:10801").
+		SetBaseURL(url)
+	if uuid != "" {
 		client.
-			//SetProxyURL("socks5://127.0.0.1:10801").
-			SetBaseURL(url)
-		if uuid != "" {
-			client.SetCommonHeader("x-jito-auth", uuid)
-		}
+			SetCommonHeader("x-jito-auth", uuid)
 	}
 
 	node = &RPC{
 		RPC:              rpcinterface.New(name, cooldownIntervalMill, maxRunningThreads),
-		clients:          clients,
-		rotateTime:       atomic.Uint32{},
+		c:                client,
 		scheduler:        gtimer.New(),
 		tipAccounts:      make([]Address.AccountAddress, 0),
 		tipAccountsMutex: &gmutex.RWMutex{},
@@ -93,5 +85,5 @@ func New(ctx g.Ctx, name string, url string, cooldownIntervalMill int64, maxRunn
 }
 
 func (node *RPC) client() *req.Client {
-	return node.clients[int(node.rotateTime.Add(1))%len(node.clients)]
+	return node.c
 }

@@ -136,7 +136,7 @@ func testIxReorganize(ctx g.Ctx) (err error) {
 	ctx = context.WithValue(ctx, consts.CtxTransaction, txHash.String())
 	g.Log().Infof(ctx, "已发送交易")
 
-	spent, err := officialPool.WaitConfirmTransactionByHTTP(ctx, txHash)
+	spent, err := officialPool.WaitConfirmTransactionByHTTP(ctx, txHash, tx)
 	if err != nil {
 		err = gerror.Wrapf(err, "等待交易确认失败")
 		return

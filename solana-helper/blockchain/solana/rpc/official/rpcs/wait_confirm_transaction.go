@@ -14,7 +14,8 @@ import (
 	"git.wkr.moe/web3/solana-helper/consts"
 )
 
-func (pool *RPCs) WaitConfirmTransactionByHTTP(ctx g.Ctx, signature solana.Signature) (spent time.Duration, err error) {
+// WaitConfirmTransactionByHTTP 若传入 tx, 则会自动每秒重发
+func (pool *RPCs) WaitConfirmTransactionByHTTP(ctx g.Ctx, signature solana.Signature, tx ...*solana.Transaction) (spent time.Duration, err error) {
 	ctx = context.WithValue(ctx, consts.CtxTransaction, signature.String())
 
 	timeout := time.NewTimer(1 * time.Minute)
@@ -44,6 +45,12 @@ func (pool *RPCs) WaitConfirmTransactionByHTTP(ctx g.Ctx, signature solana.Signa
 
 				spent = gtime.Now().Sub(startTime)
 				return
+			} else if len(tx) > 0 && tx[0] != nil {
+				_, err := pool.httpSendTransaction(ctx, tx[0])
+				if err != nil {
+					err = gerror.Wrapf(err, "发送交易失败")
+					g.Log("background").Warningf(ctx, "%v", err)
+				}
 			}
 		}
 	}

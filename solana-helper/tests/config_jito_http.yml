@@ -54,3 +54,14 @@ rpc:
     region: tyo
     feature:
     offline: false
+
+  - name: 美国 盐湖城
+    url:
+      - https://slc.mainnet.block-engine.jito.wtf
+    config:
+      cooldownIntervalMill: 200
+      maxRunningThreads: 5
+    location: 美国 盐湖城 Teraswitch
+    region: slc
+    feature:
+    offline: false
