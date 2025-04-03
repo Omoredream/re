@@ -16,7 +16,7 @@ rpc:
       - https://amsterdam.mainnet.block-engine.jito.wtf
     config:
       cooldownIntervalMill: 200
-      maxRunningThreads: 5
+      maxRunningThreads: 3
     location: 荷兰 阿姆斯特丹 Teraswitch
     region: ams
     feature:
@@ -38,7 +38,7 @@ rpc:
       - https://ny.mainnet.block-engine.jito.wtf
     config:
       cooldownIntervalMill: 200
-      maxRunningThreads: 5
+      maxRunningThreads: 3
     location: 美国 纽约 Teraswitch
     region: ny
     feature:
