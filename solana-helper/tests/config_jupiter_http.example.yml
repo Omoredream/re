@@ -1,0 +1,11 @@
+rpc:
+  - name: Jupiter 官方
+    url:
+      - https://quote-api.jup.ag/v6
+    location: ？
+    region: global
+    level: lv?
+    feature:
+      - 币池过多
+      - 禁止套利
+    offline: false
