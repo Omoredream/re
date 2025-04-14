@@ -1,0 +1,67 @@
+rpc:
+  - name: 自适应
+    url:
+      - https://mainnet.block-engine.jito.wtf
+    config:
+      cooldownIntervalMill: 200
+      maxRunningThreads: 5
+    location: 多线
+    region: global
+    feature:
+      - 多线
+    offline: false
+
+  - name: 荷兰 阿姆斯特丹
+    url:
+      - https://amsterdam.mainnet.block-engine.jito.wtf
+    config:
+      cooldownIntervalMill: 200
+      maxRunningThreads: 5
+    location: 荷兰 阿姆斯特丹 Teraswitch
+    region: ams
+    feature:
+    offline: false
+
+  - name: 德国 法兰克福
+    url:
+      - https://frankfurt.mainnet.block-engine.jito.wtf
+    config:
+      cooldownIntervalMill: 200
+      maxRunningThreads: 5
+    location: 德国 法兰克福 Teraswitch
+    region: fra
+    feature:
+    offline: false
+
+  - name: 美国 纽约
+    url:
+      - https://ny.mainnet.block-engine.jito.wtf
+    config:
+      cooldownIntervalMill: 200
+      maxRunningThreads: 5
+    location: 美国 纽约 Teraswitch
+    region: ny
+    feature:
+    offline: false
+
+  - name: 日本 东京
+    url:
+      - https://tokyo.mainnet.block-engine.jito.wtf
+    config:
+      cooldownIntervalMill: 200
+      maxRunningThreads: 5
+    location: 日本 东京 Teraswitch
+    region: tyo
+    feature:
+    offline: false
+
+  - name: 美国 盐湖城
+    url:
+      - https://slc.mainnet.block-engine.jito.wtf
+    config:
+      cooldownIntervalMill: 200
+      maxRunningThreads: 5
+    location: 美国 盐湖城 Teraswitch
+    region: slc
+    feature:
+    offline: false

@@ -1,0 +1,98 @@
+rpc:
+  - name: 官方
+    url:
+      - https://api.mainnet-beta.solana.com
+    config:
+      cooldownIntervalMill: 5_000
+      maxRunningThreads: 3
+      shortID: false
+      headers:
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+    location: CDN
+    region: global
+    feature:
+      - Triton
+      - CDN
+    offline: false
+
+  - name: Phantom
+    url:
+      - wss://solana-mainnet.phantom.app/YBPpkkN4g91xDiAnTE9r0RcMkjg0sKUIWvAfoFVJ
+    config:
+      cooldownIntervalMill: 5_000
+      maxRunningThreads: 3
+      shortID: false
+      headers:
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+    location: CDN
+    region: global
+    feature:
+      - CDN
+    offline: false
+
+  - name: Solflare
+    url:
+      - https://mainnet-beta.solflare.network
+    config:
+      cooldownIntervalMill: 5_000
+      maxRunningThreads: 3
+      shortID: false
+      headers:
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+    location: 多线
+    region: global
+    feature:
+      - Triton
+      - 多线
+    offline: false
+
+  - name: Tensor-Helius
+    url:
+      - https://lauraine-qytyxk-fast-mainnet.helius-rpc.com
+    config:
+      cooldownIntervalMill: 5_000
+      maxRunningThreads: 3
+      shortID: false
+      headers:
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+        "Origin": "https://www.tensor.trade"
+        "Referer": "https://www.tensor.trade/"
+    location: CDN
+    region: global
+    feature:
+      - Helius
+      - CDN
+    offline: false
+
+  - name: Tensor-Triton
+    url:
+      - https://tensor-tensor-ec08.mainnet.rpcpool.com
+    config:
+      cooldownIntervalMill: 5_000
+      maxRunningThreads: 3
+      shortID: false
+      headers:
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+        "Origin": "https://www.tensor.trade"
+        "Referer": "https://www.tensor.trade/"
+    location: 多线
+    region: global
+    feature:
+      - Triton
+      - 多线
+    offline: false
+
+  - name: dRPC
+    url:
+      - https://solana.drpc.org
+    config:
+      cooldownIntervalMill: 5_000
+      maxRunningThreads: 3
+      shortID: false
+      headers:
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+    location: CDN
+    region: global
+    feature:
+      - CDN
+    offline: true # 错误率过高

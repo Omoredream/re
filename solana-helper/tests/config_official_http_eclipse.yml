@@ -1,0 +1,41 @@
+rpc:
+  - name: 官方
+    url:
+      - https://mainnetbeta-rpc.eclipse.xyz
+    config:
+      cooldownIntervalMill: 5_000
+      maxRunningThreads: 3
+      browser: true
+    location: CDN
+    region: global
+    feature:
+      - CDN
+    offline: false
+
+  - name: Helius
+    url:
+      - https://eclipse.helius-rpc.com
+    config:
+      cooldownIntervalMill: 5_000
+      maxRunningThreads: 6
+      browser: true
+    location: CDN
+    region: global
+    feature:
+      - CDN
+      - Helius
+    offline: false
+
+  - name: Luganodes
+    url:
+      - https://eclipse.lgns.net
+    config:
+      cooldownIntervalMill: 5_000
+      maxRunningThreads: 6
+      browser: true
+    location: CDN
+    region: global
+    feature:
+      - CDN
+      - Luganodes
+    offline: false

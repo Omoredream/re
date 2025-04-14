@@ -1,0 +1,200 @@
+rpc:
+  - name: 官方
+    url:
+      - https://api.mainnet-beta.solana.com
+    config:
+      cooldownIntervalMill: 5_000
+      maxRunningThreads: 3
+      browser: true
+    location: CDN
+    region: global
+    feature:
+      - Triton
+      - CDN
+    offline: false
+
+  - name: Ave
+    url:
+      - https://api.dryespah.com/ave_nodes/rpc/solana/sendFastSwapTx
+    config:
+      cooldownIntervalMill: 5_000
+      maxRunningThreads: 3
+      ua: okhttp/4.11.0
+    location: 中国 香港 Amazon
+    region: global
+    feature:
+      - Helius
+    offline: false
+
+  - name: TrustWallet
+    url:
+      - https://solana.twnodes.com
+    config:
+      cooldownIntervalMill: 5_000
+      maxRunningThreads: 3
+      ua: okhttp/4.9.2
+    location: CDN
+    region: global
+    feature:
+      - Helius
+      - CDN
+    offline: false
+
+  - name: TokenPocket-1D
+    url:
+      - https://solana1.mytokenpocket.vip
+    config:
+      cooldownIntervalMill: 5_000
+      maxRunningThreads: 3
+      ua: Mozilla/5.0 (Linux; Android 14; 23049RAD8C Build/UKQ1.230804.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/122.0.6261.119 Mobile Safari/537.36 vip.mytokenpocket 2.0.7 TokenPocket_Android
+    location: 中国 香港 Aliyun
+    region: global
+    feature:
+    offline: false
+
+  - name: TokenPocket-3Z
+    url:
+      - https://solana3.mytokenpocket.vip
+    config:
+      cooldownIntervalMill: 5_000
+      maxRunningThreads: 3
+      ua: Mozilla/5.0 (Linux; Android 14; 23049RAD8C Build/UKQ1.230804.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/122.0.6261.119 Mobile Safari/537.36 vip.mytokenpocket 2.0.7 TokenPocket_Android
+    location: 中国 香港 Aliyun
+    region: global
+    feature:
+    offline: false
+
+  - name: TokenPocket-4A
+    url:
+      - https://solana4.mytokenpocket.vip
+    config:
+      cooldownIntervalMill: 5_000
+      maxRunningThreads: 3
+      ua: Mozilla/5.0 (Linux; Android 14; 23049RAD8C Build/UKQ1.230804.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/122.0.6261.119 Mobile Safari/537.36 vip.mytokenpocket 2.0.7 TokenPocket_Android
+    location: 中国 香港 Aliyun
+    region: global
+    feature:
+    offline: true
+
+  - name: OneKey
+    url:
+      - https://node.onekey.so/sol
+    config:
+      cooldownIntervalMill: 5_000
+      maxRunningThreads: 3
+      ua: okhttp/4.9.2
+    location: CDN
+    region: global
+    feature:
+      - CDN
+    offline: true
+
+  - name: Phantom
+    url:
+      - https://solana-mainnet.phantom.app/YBPpkkN4g91xDiAnTE9r0RcMkjg0sKUIWvAfoFVJ
+    config:
+      cooldownIntervalMill: 5_000
+      maxRunningThreads: 3
+      browser: true
+      queryParams:
+        "advancedTxSubmission": "true"
+      headers:
+        "x-phantom-version": "24.27.1"
+        "x-phantomauthtoken": "eKnTUQcVPJwHn1v9YUwqoBwNmgWr2ZHL%2FyvI62kuYI0%3D"
+        "origin": "chrome-extension://bfnaelmomeimhlpmgjnjophhpkkoljpa"
+    location: CDN
+    region: global
+    feature:
+      - CDN
+    offline: false
+
+  - name: Solflare
+    url:
+      - https://mainnet-beta.solflare.network
+    config:
+      cooldownIntervalMill: 5_000
+      maxRunningThreads: 3
+      browser: true
+    location: 多线
+    region: global
+    feature:
+      - Triton
+      - 多线
+    offline: false
+
+  - name: Backpack
+    url:
+      - https://swr.xnftdata.com/rpc-proxy/
+    config:
+      cooldownIntervalMill: 5_000
+      maxRunningThreads: 3
+      browser: true
+    location: CDN
+    region: global
+    feature:
+      - Helius
+      - CDN
+    offline: false
+
+  - name: SolanaFM
+    url:
+      - https://solana-api.solana.fm
+    config:
+      cooldownIntervalMill: 5_000
+      maxRunningThreads: 3
+      browser: true
+      headers:
+        "Origin": "https://solana.fm"
+    location: CDN
+    region: global
+    feature:
+      - Triton
+      - CDN
+    offline: false
+
+  - name: Tensor-Helius
+    url:
+      - https://lauraine-qytyxk-fast-mainnet.helius-rpc.com
+    config:
+      cooldownIntervalMill: 5_000
+      maxRunningThreads: 3
+      browser: true
+      headers:
+        "Origin": "https://www.tensor.trade"
+        "Referer": "https://www.tensor.trade/"
+    location: CDN
+    region: global
+    feature:
+      - Helius
+      - CDN
+    offline: false
+
+  - name: Tensor-Triton
+    url:
+      - https://tensor-tensor-ec08.mainnet.rpcpool.com
+    config:
+      cooldownIntervalMill: 5_000
+      maxRunningThreads: 3
+      browser: true
+      headers:
+        "Origin": "https://www.tensor.trade"
+        "Referer": "https://www.tensor.trade/"
+    location: 多线
+    region: global
+    feature:
+      - Triton
+      - 多线
+    offline: false
+
+  - name: dRPC
+    url:
+      - https://solana.drpc.org
+    config:
+      cooldownIntervalMill: 5_000
+      maxRunningThreads: 3
+      browser: true
+    location: CDN
+    region: global
+    feature:
+      - CDN
+    offline: true # 错误率过高
